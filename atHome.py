@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 from picamera2 import Picamera2
-from picamera2.utils import mjpeg_to_numpy
 
 # Initialize the PiCamera2
 picam2 = Picamera2()
@@ -23,10 +22,11 @@ upper_orange_value = np.array([20, 255, 255])  # Brighter neon orange (increased
 # Main loop
 while True:
     # Capture a frame from PiCamera2
-    frame = picam2.capture_array()
+    frame = picam2.capture_array("main")
 
     # Resize the frame if needed (to match desired resolution)
     frame = cv.resize(frame, (frame_width, frame_height))
+    frame = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
 
     # Convert image to HSV 
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
